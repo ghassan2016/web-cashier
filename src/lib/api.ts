@@ -3,7 +3,7 @@
  * Stores the Sanctum token in localStorage and attaches it + tenant headers.
  */
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "https://cashier.medcoai.online/api/v1";
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "https://api.medcoai.online/api/v1";
 
 const TOKEN_KEY = "cahier_token";
 const BRANCH_KEY = "cahier_branch";

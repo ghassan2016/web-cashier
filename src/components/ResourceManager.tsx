@@ -65,6 +65,17 @@ export function ResourceManager({
     load();
   }, [load]);
 
+  // Lock background (page + sidebar) scroll while the modal is open so the
+  // body doesn't scroll behind the dialog.
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [open]);
+
   useEffect(() => {
     fields.forEach(async (f) => {
       if (!f.optionsEndpoint) return;
@@ -187,10 +198,11 @@ export function ResourceManager({
 
       {open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
-            <h2 className="mb-4 text-base font-bold text-slate-800">
+          <div className="flex max-h-[90vh] w-full max-w-md flex-col overflow-hidden rounded-xl bg-white shadow-xl">
+            <h2 className="border-b px-6 py-4 text-base font-bold text-slate-800">
               {editing ? "تعديل" : "إضافة"} — {title}
             </h2>
+            <div className="flex-1 overflow-y-auto overscroll-contain px-6 py-4">
             {errors._ && <p className="mb-3 text-sm text-red-600">{errors._[0]}</p>}
             <div className="space-y-3">
               {fields.map((f) => {
@@ -236,7 +248,8 @@ export function ResourceManager({
                 );
               })}
             </div>
-            <div className="mt-6 flex justify-end gap-2">
+            </div>
+            <div className="flex justify-end gap-2 border-t px-6 py-4">
               <button onClick={() => setOpen(false)} className="rounded-lg px-4 py-2 text-sm text-slate-600 hover:bg-slate-100">إلغاء</button>
               <button
                 onClick={save}

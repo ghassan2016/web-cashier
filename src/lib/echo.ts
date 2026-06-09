@@ -16,7 +16,7 @@ export function getEcho(): Echo<"reverb"> | null {
   echo = new Echo({
     broadcaster: "reverb",
     key: process.env.NEXT_PUBLIC_REVERB_KEY ?? "6o6uduoolylwdgxtox1o",
-    wsHost: process.env.NEXT_PUBLIC_REVERB_HOST ?? "cashier.medcoai.online",
+    wsHost: process.env.NEXT_PUBLIC_REVERB_HOST ?? "api.medcoai.online",
     wsPort: Number(process.env.NEXT_PUBLIC_REVERB_PORT ?? 443),
     wssPort: Number(process.env.NEXT_PUBLIC_REVERB_PORT ?? 443),
     forceTLS: (process.env.NEXT_PUBLIC_REVERB_SCHEME ?? "https") === "https",
