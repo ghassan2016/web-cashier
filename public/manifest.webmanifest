@@ -1,0 +1,16 @@
+{
+  "name": "كاهييه — اطلب الآن",
+  "short_name": "كاهييه",
+  "description": "اطلب طعامك من كاهييه وتابع طلبك لحظيًا",
+  "start_url": "/order",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0E7C66",
+  "theme_color": "#0E7C66",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

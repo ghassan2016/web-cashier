@@ -1,26 +1,99 @@
 @import "tailwindcss";
 
+/*
+ * Cahier Back-Office — Data-Dense Dashboard
+ * Design system: docs/DESIGN_SYSTEM.md (Emerald brand, Cairo, RTL, light+dark)
+ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand — Emerald */
+  --primary: #0e7c66;
+  --primary-light: #10b981;
+  --primary-dark: #0a5c4c;
+  --on-primary: #ffffff;
+
+  /* Surfaces (light) */
+  --background: #f1f5f9;
+  --surface: #ffffff;
+  --surface-alt: #e6f7f1;
+  --border: #e2e8f0;
+  --foreground: #1e293b;
+  --muted: #64748b;
+
+  /* Semantic status */
+  --success: #16a34a;
+  --warning: #d97706;
+  --danger: #dc2626;
+  --info: #0369a1;
 }
 
 @theme inline {
+  --color-primary: var(--primary);
+  --color-primary-light: var(--primary-light);
+  --color-primary-dark: var(--primary-dark);
+  --color-on-primary: var(--on-primary);
+
   --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-alt: var(--surface-alt);
+  --color-border: var(--border);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-muted: var(--muted);
+
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-info: var(--info);
+
+  /* Cairo for Arabic/RTL; system fallbacks */
+  --font-sans: "Cairo", ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "Cascadia Code", monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* The back-office is designed light-only (no theme toggle is wired up yet), so
+ * dark mode is opt-in via [data-theme="dark"] only — NOT auto from the OS. This
+ * keeps native form controls (<select> dropdowns, date pickers) readable when
+ * the operating system is in dark mode. */
+:root[data-theme="dark"] {
+  --background: #0b1220;
+  --surface: #0f172a;
+  --surface-alt: #13241f;
+  --border: #1e293b;
+  --foreground: #e2e8f0;
+  --muted: #94a3b8;
+  --primary: #10b981;
+  --primary-light: #34d399;
+  color-scheme: dark;
+}
+
+html {
+  /* Arabic-first RTL document */
+  direction: rtl;
+  /* Render native controls (select options, pickers) in light mode by default
+   * so OS dark mode doesn't grey out dropdown text. */
+  color-scheme: light;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+/* Tabular figures for prices, quantities, data columns (number-tabular) */
+.tabular-nums,
+table,
+.kpi-value {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Respect reduced motion globally */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
