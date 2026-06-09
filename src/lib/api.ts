@@ -3,7 +3,9 @@
  * Stores the Sanctum token in localStorage and attaches it + tenant headers.
  */
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "https://api.medcoai.online/api/v1";
+// Local-dev fallback. Production sets NEXT_PUBLIC_API_URL (Vercel) →
+// https://cashier.medcoai.online/api/v1
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000/api/v1";
 
 const TOKEN_KEY = "cahier_token";
 const BRANCH_KEY = "cahier_branch";
