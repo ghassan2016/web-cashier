@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { api, ApiError } from "@/lib/api";
+import { money } from "@/lib/currency";
 
 type Module = { id: number; key: string; name: string; monthly_price: number; is_core: boolean; enabled: boolean };
 
@@ -41,7 +42,7 @@ export default function ModulesPage() {
             <div>
               <div className="font-semibold text-slate-800">{m.name}</div>
               <div className="mt-1 text-xs text-slate-500">
-                {m.is_core ? "وحدة أساسية" : (m.monthly_price > 0 ? `${m.monthly_price.toFixed(2)} ر.س / شهر` : "مجانية")}
+                {m.is_core ? "وحدة أساسية" : (m.monthly_price > 0 ? `${money(m.monthly_price)} / شهر` : "مجانية")}
               </div>
             </div>
             <button

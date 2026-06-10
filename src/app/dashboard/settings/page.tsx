@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { api, ApiError } from "@/lib/api";
+import { setCurrency } from "@/lib/currency";
+import { setCompanyName } from "@/lib/company";
 
 const FIELDS: { key: string; label: string; type?: string }[] = [
   { key: "company_name", label: "اسم المنشأة" },
@@ -24,7 +26,7 @@ export default function SettingsPage() {
 
   useEffect(() => {
     api<{ data: Record<string, string> }>("/settings")
-      .then((r) => setValues(r.data ?? {}))
+      .then((r) => { setValues(r.data ?? {}); setCurrency(r.data?.currency); setCompanyName(r.data?.company_name); })
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
@@ -36,7 +38,10 @@ export default function SettingsPage() {
         method: "PUT",
         body: { settings: values },
       });
-      setValues(res.data ?? values);
+      const saved = res.data ?? values;
+      setValues(saved);
+      setCurrency(saved.currency);
+      setCompanyName(saved.company_name);
       setMsg("تم حفظ الإعدادات");
     } catch (e) {
       setError(e instanceof ApiError ? e.message : "تعذّر الحفظ");

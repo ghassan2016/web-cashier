@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { api, ApiError } from "@/lib/api";
+import { RowActionsMenu, PencilIcon, TrashIcon } from "@/components/RowActionsMenu";
 
 // ---- types ----
 type ItemRef = { id: number; name: string; sale_price?: number };
@@ -94,8 +95,12 @@ export default function OffersPage() {
                 <td className="px-4 py-3 text-slate-600">{(o.items ?? []).map((it) => `${it.name}${it.is_free ? " (مجاني)" : ""}`).join("، ") || "—"}</td>
                 <td className="px-4 py-3">{o.is_active ? "نعم" : "لا"}</td>
                 <td className="px-4 py-3 text-left whitespace-nowrap">
-                  <button onClick={() => setEditing({ ...o, items: (o.items ?? []).map((x) => ({ ...x })) })} className="text-[#10B981] hover:underline">تعديل</button>
-                  <button onClick={() => remove(o)} className="mr-3 text-red-600 hover:underline">حذف</button>
+                  <RowActionsMenu
+                    actions={[
+                      { label: "تعديل", icon: <PencilIcon />, onClick: () => setEditing({ ...o, items: (o.items ?? []).map((x) => ({ ...x })) }) },
+                      { label: "حذف", icon: <TrashIcon />, danger: true, onClick: () => remove(o) },
+                    ]}
+                  />
                 </td>
               </tr>
             ))}

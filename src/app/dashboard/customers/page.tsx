@@ -1,6 +1,7 @@
 "use client";
 
 import { ResourceManager } from "@/components/ResourceManager";
+import { money } from "@/lib/currency";
 
 export default function CustomersPage() {
   return (
@@ -11,7 +12,7 @@ export default function CustomersPage() {
         { key: "name", label: "الاسم" },
         { key: "phone", label: "الجوال" },
         { key: "loyalty_points", label: "نقاط الولاء" },
-        { key: "balance", label: "الرصيد", render: (r) => `${Number(r.balance ?? 0).toFixed(2)} ر.س` },
+        { key: "balance", label: "الرصيد", render: (r) => money(Number(r.balance ?? 0)) },
       ]}
       fields={[
         { name: "name", label: "الاسم", required: true },

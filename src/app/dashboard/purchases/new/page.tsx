@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { api, ApiError } from "@/lib/api";
+import { money } from "@/lib/currency";
 
 type Option = { id: number; name: string };
 type ItemOption = { id: number; name: string; cost?: number };
@@ -177,9 +178,9 @@ export default function NewPurchasePage() {
 
       <div className="mt-4 flex items-center justify-between rounded-xl border bg-white p-4">
         <div className="space-y-1 text-sm text-slate-600">
-          <div>الإجمالي الفرعي: {totals.subtotal.toFixed(2)} ر.س</div>
-          <div>الضريبة: {totals.tax.toFixed(2)} ر.س</div>
-          <div className="text-base font-bold text-slate-800">الإجمالي: {totals.grand.toFixed(2)} ر.س</div>
+          <div>الإجمالي الفرعي: {money(totals.subtotal)}</div>
+          <div>الضريبة: {money(totals.tax)}</div>
+          <div className="text-base font-bold text-slate-800">الإجمالي: {money(totals.grand)}</div>
         </div>
         <button onClick={submit} disabled={saving} className="rounded-lg bg-[#0E7C66] px-6 py-3 text-white hover:bg-[#0A5C4C] disabled:opacity-60">
           {saving ? "جارٍ الحفظ…" : "حفظ الفاتورة"}

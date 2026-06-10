@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { api } from "@/lib/api";
+import { money } from "@/lib/currency";
 
 type Purchase = {
   id: number;
@@ -61,8 +62,8 @@ export default function PurchasesPage() {
                   <td className="px-4 py-3 font-medium text-slate-800">{p.number}</td>
                   <td className="px-4 py-3 text-slate-600">{p.supplier?.name ?? "-"}</td>
                   <td className="px-4 py-3 text-slate-600">{p.invoice_date ?? "-"}</td>
-                  <td className="px-4 py-3 text-slate-800">{p.grand_total.toFixed(2)} ر.س</td>
-                  <td className="px-4 py-3 text-slate-600">{p.paid_total.toFixed(2)} ر.س</td>
+                  <td className="px-4 py-3 text-slate-800">{money(p.grand_total)}</td>
+                  <td className="px-4 py-3 text-slate-600">{money(p.paid_total)}</td>
                   <td className="px-4 py-3">
                     <span className={`rounded-full px-2 py-0.5 text-xs ${p.is_credit ? "bg-amber-100 text-amber-700" : "bg-green-100 text-green-700"}`}>
                       {p.is_credit ? "آجل" : "مدفوعة"}

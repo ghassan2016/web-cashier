@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { api, ApiError } from "@/lib/api";
+import { money } from "@/lib/currency";
 
 type Summary = {
   business_date: string;
@@ -22,7 +23,6 @@ type Closing = {
   branch?: { name: string } | null;
 };
 
-const money = (n: number) => `${Number(n ?? 0).toFixed(2)} ر.س`;
 const today = () => new Date().toISOString().slice(0, 10);
 
 export default function DayClosingsPage() {

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { api } from "@/lib/api";
+import { money } from "@/lib/currency";
 
 type Stock = {
   item_id: number;
@@ -39,7 +40,7 @@ export default function InventoryPage() {
       <div className="mb-4 flex items-center justify-between">
         <h1 className="text-lg font-bold text-slate-800">المخزون</h1>
         <div className="rounded-xl border bg-white px-4 py-2 text-sm">
-          إجمالي قيمة المخزون: <b className="text-[#0E7C66]">{totalValue.toFixed(2)} ر.س</b>
+          إجمالي قيمة المخزون: <b className="text-[#0E7C66]">{money(totalValue)}</b>
         </div>
       </div>
 
@@ -73,7 +74,7 @@ export default function InventoryPage() {
                   <td className="px-4 py-3 text-slate-600">{r.warehouse_name}</td>
                   <td className="px-4 py-3 text-slate-700">{r.qty}</td>
                   <td className="px-4 py-3 text-slate-600">{r.avg_cost.toFixed(2)}</td>
-                  <td className="px-4 py-3 text-slate-800">{r.value.toFixed(2)} ر.س</td>
+                  <td className="px-4 py-3 text-slate-800">{money(r.value)}</td>
                 </tr>
               ))
             )}

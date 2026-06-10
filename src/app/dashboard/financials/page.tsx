@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { api } from "@/lib/api";
+import { money, getCurrency } from "@/lib/currency";
 
 type Line = { code: string; name: string; total: number };
 type Income = { revenue: Line[]; expenses: Line[]; revenue_total: number; expense_total: number; net_profit: number };
@@ -24,7 +25,6 @@ type ByEmp = { rows: { name: string; count: number; total: number; average_ticke
 
 const today = () => new Date().toISOString().slice(0, 10);
 const monthStart = () => { const d = new Date(); return new Date(d.getFullYear(), d.getMonth(), 1).toISOString().slice(0, 10); };
-const money = (n: number) => `${n.toFixed(2)} ر.س`;
 
 type Tab = "income" | "balance" | "trial" | "profit" | "tax" | "vat" | "inventory" | "byhour" | "byemployee";
 
@@ -284,7 +284,7 @@ function Stat({ label, value, accent, suffix }: { label: string; value: number; 
     <div className="rounded-xl border bg-white p-4">
       <div className="text-sm text-slate-500">{label}</div>
       <div className={`mt-1 text-xl font-bold ${accent ? "text-[#0E7C66]" : "text-slate-800"}`}>
-        {value.toFixed(2)}{suffix ?? " ر.س"}
+        {value.toFixed(2)}{suffix ?? ` ${getCurrency()}`}
       </div>
     </div>
   );
@@ -307,7 +307,7 @@ function Section({ title, lines, total }: { title: string; lines: Line[]; total:
         )}
         <div className="flex justify-between border-t-2 pt-2 text-sm font-bold">
           <span>الإجمالي</span>
-          <span>{total.toFixed(2)} ر.س</span>
+          <span>{money(total)}</span>
         </div>
       </div>
     </div>

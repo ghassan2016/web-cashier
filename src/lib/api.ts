@@ -74,6 +74,28 @@ export async function api<T = unknown>(path: string, options: ApiOptions = {}): 
   return data as T;
 }
 
+/**
+ * Uploads a file via multipart/form-data to the generic /uploads endpoint and
+ * returns the stored public URL. Unlike `api()` we must NOT set Content-Type —
+ * the browser adds the multipart boundary itself.
+ */
+export async function uploadFile(file: File, folder = "items"): Promise<{ path: string; url: string }> {
+  const headers: Record<string, string> = { Accept: "application/json" };
+  const token = getToken();
+  if (token) headers.Authorization = `Bearer ${token}`;
+  const branch = getBranchId();
+  if (branch) headers["X-Branch-Id"] = branch;
+
+  const fd = new FormData();
+  fd.append("file", file);
+  fd.append("folder", folder);
+
+  const res = await fetch(`${API_URL}/uploads`, { method: "POST", headers, body: fd });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new ApiError(res.status, data.message ?? "تعذّر رفع الصورة", data.errors);
+  return data.data as { path: string; url: string };
+}
+
 // ---- Typed helpers ----
 export interface AuthUser {
   id: number;

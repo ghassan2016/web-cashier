@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { api } from "@/lib/api";
 import { subscribe } from "@/lib/echo";
+import { money } from "@/lib/currency";
 
 type Driver = {
   id: number;
@@ -99,7 +100,7 @@ export default function DispatchPage() {
   }
 
   async function payout(driver: Driver) {
-    const amount = prompt(`تسوية رصيد ${driver.name} (${driver.balance.toFixed(2)} ر.س)`, driver.balance.toFixed(2));
+    const amount = prompt(`تسوية رصيد ${driver.name} (${money(driver.balance)})`, driver.balance.toFixed(2));
     if (!amount) return;
     await api(`/dispatch/drivers/${driver.id}/payout`, { method: "POST", body: { amount: Number(amount) } });
     await load();
@@ -133,7 +134,7 @@ export default function DispatchPage() {
                   {o.customer?.name && <div>👤 {o.customer.name} · {o.customer.phone ?? ""}</div>}
                   {o.address?.address_line && <div className="text-slate-500">📍 {o.address.address_line}</div>}
                   <div className="mt-1 font-semibold text-[#0E7C66]">
-                    {(o.grand_total ?? 0).toFixed(2)} ر.س
+                    {money(o.grand_total ?? 0)}
                     {o.distance_km != null && <span className="text-slate-400"> · {o.distance_km} كم</span>}
                   </div>
                   {/* Delivery completion: payment method + proof images */}
@@ -194,7 +195,7 @@ export default function DispatchPage() {
                 <span className="text-xs text-slate-500">{d.active_orders} نشط</span>
               </div>
               <div className="mt-2 flex items-center justify-between text-sm">
-                <span className="text-slate-600">الرصيد: <b>{d.balance.toFixed(2)} ر.س</b></span>
+                <span className="text-slate-600">الرصيد: <b>{money(d.balance)}</b></span>
                 {d.balance > 0 && (
                   <button onClick={() => payout(d)} className="text-xs text-[#0E7C66] hover:underline">تسوية</button>
                 )}

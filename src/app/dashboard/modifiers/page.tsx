@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { api, ApiError } from "@/lib/api";
+import { RowActionsMenu, PencilIcon, TrashIcon } from "@/components/RowActionsMenu";
 
 // ---- types ----
 type Option = {
@@ -110,8 +111,12 @@ function GroupsTab() {
                 <td className="px-4 py-3 text-slate-600">{g.modifiers.map((m) => m.name).join("، ")}</td>
                 <td className="px-4 py-3">{g.is_required ? "نعم" : "لا"}</td>
                 <td className="px-4 py-3 text-left whitespace-nowrap">
-                  <button onClick={() => { setEditing(g); setOpen(true); }} className="text-[#10B981] hover:underline">تعديل</button>
-                  <button onClick={() => remove(g)} className="mr-3 text-red-600 hover:underline">حذف</button>
+                  <RowActionsMenu
+                    actions={[
+                      { label: "تعديل", icon: <PencilIcon />, onClick: () => { setEditing(g); setOpen(true); } },
+                      { label: "حذف", icon: <TrashIcon />, danger: true, onClick: () => remove(g) },
+                    ]}
+                  />
                 </td>
               </tr>
             ))}

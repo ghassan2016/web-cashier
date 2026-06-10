@@ -1,6 +1,7 @@
 "use client";
 
 import { ResourceManager } from "@/components/ResourceManager";
+import { money } from "@/lib/currency";
 
 export default function ItemsPage() {
   return (
@@ -12,7 +13,7 @@ export default function ItemsPage() {
         { key: "name", label: "الصنف" },
         { key: "category", label: "القسم", render: (r) => (r.category as { name?: string } | null)?.name ?? "-" },
         { key: "type", label: "النوع" },
-        { key: "sale_price", label: "السعر", render: (r) => `${Number(r.sale_price ?? 0).toFixed(2)} ر.س` },
+        { key: "sale_price", label: "السعر", render: (r) => money(Number(r.sale_price ?? 0)) },
       ]}
       fields={[
         { name: "name", label: "الاسم", required: true },
@@ -30,7 +31,7 @@ export default function ItemsPage() {
           ],
         },
         { name: "category_id", label: "القسم", type: "select", optionsEndpoint: "/categories" },
-        { name: "image_path", label: "رابط الصورة (URL)" },
+        { name: "image_path", label: "صورة الصنف", type: "image" },
         { name: "sale_price", label: "سعر البيع", type: "number", step: "0.01", defaultValue: 0 },
         { name: "cost", label: "التكلفة", type: "number", step: "0.01", defaultValue: 0 },
         { name: "is_taxable", label: "خاضع للضريبة", type: "checkbox", defaultValue: true },

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { api, ApiError } from "@/lib/api";
+import { money } from "@/lib/currency";
 
 type SalesReport = {
   total_sales: number;
@@ -74,10 +75,10 @@ export default function ReportsPage() {
       ) : data ? (
         <div className="space-y-6">
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-            <Stat label="إجمالي المبيعات" value={`${data.total_sales.toFixed(2)} ر.س`} />
+            <Stat label="إجمالي المبيعات" value={money(data.total_sales)} />
             <Stat label="عدد الفواتير" value={data.invoice_count} />
-            <Stat label="متوسّط الفاتورة" value={`${data.average_ticket.toFixed(2)} ر.س`} />
-            <Stat label="الضريبة" value={`${data.tax_total.toFixed(2)} ر.س`} />
+            <Stat label="متوسّط الفاتورة" value={money(data.average_ticket)} />
+            <Stat label="الضريبة" value={money(data.tax_total)} />
           </div>
 
           <div className="grid gap-6 md:grid-cols-2">
@@ -86,21 +87,21 @@ export default function ReportsPage() {
                 <Empty />
               ) : (
                 Object.entries(data.by_payment).map(([k, v]) => (
-                  <Row key={k} a={PAYMENT_LABELS[k] ?? k} b={`${v.toFixed(2)} ر.س`} />
+                  <Row key={k} a={PAYMENT_LABELS[k] ?? k} b={money(v)} />
                 ))
               )}
             </Panel>
 
             <Panel title="حسب الفئة">
               {data.by_category.length === 0 ? <Empty /> : data.by_category.map((c) => (
-                <Row key={c.name} a={c.name} b={`${c.total.toFixed(2)} ر.س`} />
+                <Row key={c.name} a={c.name} b={money(c.total)} />
               ))}
             </Panel>
           </div>
 
           <Panel title="أعلى الأصناف مبيعًا">
             {data.top_items.length === 0 ? <Empty /> : data.top_items.map((t) => (
-              <Row key={t.name} a={`${t.name} (×${t.qty})`} b={`${t.total.toFixed(2)} ر.س`} />
+              <Row key={t.name} a={`${t.name} (×${t.qty})`} b={money(t.total)} />
             ))}
           </Panel>
         </div>
